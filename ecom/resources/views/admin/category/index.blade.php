@@ -35,6 +35,6 @@
         @endforeach
     </tbody>
 </table>
-{{-- {{ $cats->onEachSide(5)->links() }} --}}
+{{ $cats->links('pagination::bootstrap-4') }}
 
 @stop()
