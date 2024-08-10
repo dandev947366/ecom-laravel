@@ -12,7 +12,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $cats = Category::orderBy('id','DESC')->paginate(2);
+        return view('admin.category.index', compact('cats'));
     }
 
     /**
@@ -20,16 +21,28 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.category.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
-    }
+{
+    $request->validate([
+        'name' => 'required|unique:categories',
+        'status' => 'required|in:inactive,active',  // Validate against the new status values
+    ]);
+
+    $data = $request->only(['name', 'status']);
+    $data['status'] = $data['status'] === 'active' ? 'active' : 'inactive';  // Ensure status is set correctly
+
+    Category::create($data);
+
+    return redirect()->route('category.index');
+}
+
+
 
     /**
      * Display the specified resource.
@@ -43,23 +56,41 @@ class CategoryController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Category $category)
-    {
-        //
-    }
+{
+    return view('admin.category.edit', compact('category'));
+}
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Category $category)
-    {
-        //
-    }
+{
+    // Validate the request
+    $request->validate([
+        'name' => 'required|unique:categories,name,' . $category->id, // Correctly validate unique except current ID
+        'status' => 'required|in:active,inactive' // Ensure the status is either 'active' or 'inactive'
+    ]);
+
+    // Prepare the data for updating
+    $data = $request->only(['name', 'status']);
+    $data['status'] = $data['status'] === 'active' ? 'active' : 'inactive'; // Ensure status is set correctly
+
+    // Update the category
+    $category->update($data);
+
+    // Redirect to the category index
+    return redirect()->route('category.index');
+}
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('category.index');
     }
+
 }

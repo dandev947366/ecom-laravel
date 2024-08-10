@@ -9,3 +9,13 @@ php artisan route:cache
 php artisan cache:clear
 
 ```
+
+- List routes:
+```bash
+php artisan route:list
+```
+
+- Start server:
+```bash
+php artisan serve
+```
