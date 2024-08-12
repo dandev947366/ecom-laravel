@@ -5,6 +5,7 @@ use App\Models\Category;
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 class PermissionController extends Controller
 {
     public function index()
@@ -67,5 +68,16 @@ class PermissionController extends Controller
         $permission = Permission::find($permissionId);
         $permission->delete();
         return redirect('permissions')->with('status', 'Permission Deleted Successfully');
+    }
+    public function givePermissionToRole (Request $request, $roleId)
+    {
+        $request->validate([
+            'permission' => 'required',
+
+        ]);
+        $role = Role::findOrFail($roleId);
+        $role->syncPermissions($request->permissions);
+
+        return redirect()->back()->with('status','Permissions added to role');
     }
 }

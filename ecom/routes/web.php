@@ -17,6 +17,7 @@ Route::get('permissions/{permissionId}/delete', [PermissionController::class, 'd
 Route::resource('roles', RoleController::class);
 Route::get('roles/{roleId}/delete', [RoleController::class, 'destroy']);
 Route::get('roles/{roleId}/give-permission', [RoleController::class, 'addPermissionToRole']);
+Route::put('roles/{roleId}/give-permission', [RoleController::class, 'givePermissionToRole']);
 
 
 // Public Routes

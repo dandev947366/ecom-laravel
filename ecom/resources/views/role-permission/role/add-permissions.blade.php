@@ -6,6 +6,11 @@
 
     <div class="container">
         <div class="row justify-content-center align-items-center">
+            @if(session('status'))
+                <div class="alert alert-succeess">
+                    {{session('status')}}
+                </div>
+            @endif
             <div class="col-md-6 col-lg-4">
                 <div class="text-center mb-4">
                     <h2>Role: {{ $role->name }}</h2>
@@ -15,6 +20,9 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
+                            @error('permission')
+                                <span class="text-danger">{{$message}}</span>
+                            @enderror
                             <label for="name" class="form-label">Permissions</label>
                             <div class="row">
                                 @foreach ($permissions as $permission)
