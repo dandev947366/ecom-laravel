@@ -1,7 +1,7 @@
 # ecom-laravel
  Ecom web app with Laravel
 
-###Commands:
+### Commands:
 - Clear cache:
 ```bash
 php artisan config:cache
