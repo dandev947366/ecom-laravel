@@ -17,10 +17,11 @@ class RoleController extends Controller
     }
 
     public function create()
-    {
-        $cats = Category::all(); // Retrieve categories from the database
-        return view('role-permission.role.create', compact('cats'));
-    }
+{
+    $roles = Role::pluck('name', 'name')->all();
+    return view('users.create', compact('roles'));
+}
+
 
     public function store(Request $request)
     {

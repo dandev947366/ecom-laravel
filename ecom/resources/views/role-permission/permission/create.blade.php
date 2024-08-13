@@ -1,7 +1,7 @@
 @extends('main')
 
 @section('main')
-
+@include('role-permission.nav-links')
 <div class="row">
 
     <div class="container">
