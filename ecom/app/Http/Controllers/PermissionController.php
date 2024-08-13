@@ -80,4 +80,23 @@ class PermissionController extends Controller
 
         return redirect()->back()->with('status','Permissions added to role');
     }
+
+    public function addPermissionToRole($roleId)
+{
+    $permissions = Permission::all();
+    $role = Role::findOrFail($roleId);
+
+    // Use the built-in method to get assigned permissions
+    $rolePermissions = $role->permissions->pluck('id')->toArray();
+
+    $cats = Category::all(); // Retrieve categories from the database
+
+    return view('role-permission.role.add-permissions', [
+        'role' => $role,
+        'cats' => $cats,
+        'permissions' => $permissions,
+        'rolePermissions' => $rolePermissions
+    ]);
+}
+
 }

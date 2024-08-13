@@ -26,7 +26,7 @@
                                 <td>{{ $role->id }}</td>
                                 <td>{{ $role->name }}</td>
                                 <td>
-                                    <a href="{{ url('roles/'.$role->id.'/give-permission') }}" class="btn btn-success">Add / Edit Role Permission</a>
+                                    <a href="{{ url('roles/'.$role->id.'/give-permission') }}" class="btn btn-outline-success">Add / Edit Role Permission</a>
                                     <a href="{{ url('roles/'.$role->id.'/edit') }}" class="btn btn-success">Edit</a>
                                     <a class="btn btn-danger mx-2" href="{{ url('roles/'.$role->id.'/delete') }}" class="btn btn-link">Delete</a>
                                 </td>

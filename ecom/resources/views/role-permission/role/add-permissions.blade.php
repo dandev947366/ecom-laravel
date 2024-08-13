@@ -1,7 +1,7 @@
 @extends('main')
 
 @section('main')
-
+@include('role-permission.nav-links')
 <div class="row">
 
     <div class="container">
@@ -29,11 +29,11 @@
 
                                 <div class="col-md-3">
                                     <label>
-                                        <input type="checkbox" name="permission[]" value="{{ $permission->id }}"/>
+                                        <input type="checkbox" name="permission[]" value="{{ $permission->name }}" {{ in_array($permission->id, $rolePermissions)? 'checked':''}}/>
                                         {{$permission->name}}
                                     </label>
-
                                 </div>
+
                                 @endforeach
                             </div>
 
@@ -44,6 +44,7 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Update</button>
                         <a class="btn btn-danger mx-2" href="{{ url('roles/'.$role->id.'/delete') }}" class="btn btn-link">Delete</a>
+                        <a href="{{ url('/permissions') }}" class="btn btn-link">Go Back</a>
 
                     </form>
                 </div>

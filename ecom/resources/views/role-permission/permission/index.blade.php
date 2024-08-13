@@ -1,16 +1,18 @@
 @extends('main')
 
 @section('main')
+@include('role-permission.nav-links')
 <div class="row">
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-md-12">
                 <div class="text-center mb-4">
                     <h2>Permissions List</h2>
-                    <a href="{{ route('permissions.create') }}" class="btn btn-primary">Create Permission</a>
+
                 </div>
                 <div class="border rounded-3 shadow-sm p-4">
                     <table class="table">
+                        <a href="{{ route('permissions.create') }}" class="btn btn-primary">Create Permission</a>
                         <thead>
                             <tr>
                                 <th>ID</th>
