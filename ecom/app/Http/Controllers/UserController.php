@@ -23,6 +23,8 @@ class UserController extends Controller
 }
 
 
+
+
 public function store(Request $request)
 {
     $request->validate([
@@ -42,5 +44,49 @@ public function store(Request $request)
 
     return redirect('users')->with('status', 'User Created Successfully With Role');
 }
+
+
+public function edit(User $user)
+{
+    $roles = Role::all();
+    $userRoles = $user->roles->pluck('name', 'name')->all();
+    $cats = Category::all();
+    return view('role-permission.user.edit', [
+        'user' => $user,
+        'roles' => $roles,
+        'userRoles' => $userRoles,
+        'cats' => $cats
+    ]);
+}
+
+public function update(Request $request, User $user)
+{
+    $request->validate([
+        'name'=>'required|string|max:255',
+        'password'=>'required|string|min:8|max:20',
+        'roles' => 'required'
+    ]);
+
+    $data = [
+        'name'=>$request->name,
+        'email'=>$request->email,
+        'password'=>Hash::make($request->password)
+    ];
+
+    if(!empty($request->password)){
+        $data += [
+            'password'=>Hash::make($request->password)
+        ];
+
+    }
+
+    $user->update($data);
+    $user->syncRoles($request->roles);
+    return redirect('users')->with('status', 'User Updated Successfully');
+}
+
+
+
+
 
 }
