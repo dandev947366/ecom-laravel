@@ -17,7 +17,8 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Eamil</th>
+                                <th>Email</th>
+                                <th>Roles</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -27,6 +28,7 @@
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
+
                                 <td>
                                     <a href="{{ url('users/'.$user->id.'/edit') }}" class="btn btn-success">Edit</a>
                                     <a class="btn btn-danger mx-2" href="{{ url('users/'.$user->id.'/delete') }}" class="btn btn-link">Delete</a>

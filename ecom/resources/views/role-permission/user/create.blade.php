@@ -11,7 +11,7 @@
                     <h2>Create Users</h2>
                 </div>
                 <div class="border rounded-3 shadow-sm p-4">
-                    <form action="{{ route('users.create') }}" method="POST">
+                    <form action="{{ route('users.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
@@ -31,11 +31,10 @@
                             <option value="">Select Role</option>
                             @foreach ($roles as $role)
                             <option value="{{$role}}">{{$role}}</option>
-
                             @endforeach
                         </select>
 
-                            <button type="submit" class="mt-3 btn btn-primary">Save</button>
+                        <button type="submit" class="mt-3 btn btn-primary">Save</button>
                         <a href="{{ url('/users') }}" class="mt-3 btn btn-link">Go Back</a>
 
                     </form>
@@ -45,4 +44,4 @@
     </div>
 
 </div>
-@stop()
+@stop
