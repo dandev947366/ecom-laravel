@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use Spatie\Permission\Models\Permission;
@@ -10,9 +10,8 @@ use App\Models\Category;
 use Spatie\Permission\Models\Role;
 class ExampleTest extends TestCase
 {
-    /**
-     * A basic test example.
-     */
+
+
     public function test_the_application_returns_a_successful_response(): void
     {
         $response = $this->get('/');
@@ -46,6 +45,31 @@ public function testViewSingleCategory()
     $response->assertStatus(200);
 
 }
+
+    public function testCreateCategorySuccessfully()
+    {
+        // Data to be sent for creating a new category
+        $categoryData = [
+            'name' => 'New Category',
+            'status' => 'active', // Ensure 'active' is a valid status value
+        ];
+
+        // Send a POST request to the store route with the new data
+        $response = $this->post(route('category.store'), $categoryData);
+
+        // Assert that the response redirects to the category index
+        $response->assertRedirect(route('category.index'));
+
+        // Assert that the category was created in the database
+        $this->assertDatabaseHas('categories', [
+            'name' => 'New Category',
+            'status' => 'active'
+        ]);
+
+        // Debug: Output all categories for inspection
+        $categories = Category::all();
+        dump($categories);  // This will output the contents of the categories table
+    }
 public function testDestroyCategorySuccessfully()
     {
 
@@ -158,10 +182,11 @@ public function testDestroyPermissionSuccessfully()
     {
 
         $this->assertDatabaseHas('permissions', [
-            'id' => 17
+            'id' => 1
         ]);
-        $response = $this->get(route('permissions.destroy', 17));
+        $response = $this->get(route('permissions.destroy', 1));
 
     }
 
 }
+
