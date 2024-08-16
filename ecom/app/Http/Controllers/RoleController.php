@@ -18,8 +18,9 @@ class RoleController extends Controller
 
     public function create()
 {
+    $cats = Category::all();
     $roles = Role::pluck('name', 'name')->all();
-    return view('users.create', compact('roles'));
+    return view('role-permission.role.create', compact('cats', 'roles'));
 }
 
 

@@ -31,16 +31,22 @@ class CategoryController extends Controller
 {
     $request->validate([
         'name' => 'required|unique:categories',
-        'status' => 'required|in:inactive,active',  // Validate against the new status values
+        'status' => 'required|in:active,inactive',
     ]);
 
-    $data = $request->only(['name', 'status']);
-    $data['status'] = $data['status'] === 'active' ? 'active' : 'inactive';  // Ensure status is set correctly
+    // Convert status from string to integer
+    $status = $request->status === 'active' ? 1 : 0;
 
-    Category::create($data);
+    Category::create([
+        'name' => $request->name,
+        'status' => $status,
+    ]);
 
     return redirect()->route('category.index');
 }
+
+
+
 
 
 
