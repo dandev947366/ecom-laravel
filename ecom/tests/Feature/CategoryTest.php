@@ -12,13 +12,14 @@ class CategoryTest extends TestCase
     {
         parent::setUp();
         // Optionally disable CSRF protection for this test if needed.
-        $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+        $this->withoutMiddleware(\App\Http\Middleware\DisableCsrfProtection::class);
     }
 
     public function test_create_a_category()
 {
-    $user = User::factory()->create();
-    $this->actingAs($user);
+    $admin = User::factory()->admin()->create();
+
+    $this->actingAs($admin);
     // Simulate form data
     $formData = [
         'name' => 'Electronics',

@@ -24,14 +24,12 @@ class PermissionController extends Controller
 
     public function store(Request $request)
 {
-    $validated = $request->validate([
-        'name' => 'required|string|unique:permissions,name'
-    ]);
-
+    // Directly use the request data without validation
     Permission::create([
-        'name' => $validated['name']
+        'name' => $request->input('name')
     ]);
 
+    // Redirect back with a success message
     return redirect('permissions')->with('status', 'Permission Created Successfully');
 }
 

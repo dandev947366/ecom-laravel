@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Http\Request;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
@@ -8,7 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Middleware\DisableCsrfProtection;
 // Permission Routes
 Route::resource('permissions', PermissionController::class);
 Route::get('permissions/{permissionId}/delete', [PermissionController::class, 'destroy']);
@@ -52,3 +52,18 @@ Route::prefix('admin')->group(function () {
 
     ]);
 });
+
+
+Route::get('/test-csrf', function () {
+    return view('test-csrf');
+});
+Route::post('/test-csrf', function (Request $request) {
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+    ]);
+    return response()->json([
+        'success' => true,
+        'name' => $request->input('name'),
+    ]);
+})->middleware('disable.csrf');

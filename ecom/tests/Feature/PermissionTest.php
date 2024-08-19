@@ -7,29 +7,41 @@ use Spatie\Permission\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-
+use Spatie\Permission\PermissionRegistrar;
 class PermissionTest extends TestCase
 {
     protected function setUp(): void
     {
+        // first include all the normal setUp operations
         parent::setUp();
 
-        // Ensure CSRF middleware is disabled during tests
-        $this->withoutMiddleware(\App\Http\Middleware\DisableCsrfProtection::class);
+        // now de-register all the roles and permissions by clearing the permission cache
+        $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
     }
 
-    /** @test */
-    public function a_permission_can_be_created()
-    {
-        // Make a POST request to create a permission
-        $response = $this->post('/permissions', [
-            'name' => 'Test Permission',
-        ]);
 
-        $this->assertDatabaseHas('permissions', [
-            'name' => 'Test Permission',
-        ]);
-    }
+    public function test_permission_can_be_created()
+{
+    // Create a user or use a default one
+    $user = User::factory()->create();
+
+    // Simulate form data
+    $formData = [
+        'name' => 'Test Permission',
+    ];
+
+    // Act as the user if needed
+    $response = $this->actingAs($user)->post('/permissions', $formData);
+
+    // Assert that the permission was created in the database
+    $this->assertDatabaseHas('permissions', [
+        'name' => 'Test Permission',
+    ]);
+
+    // Assert redirection or response status if necessary
+    $response->assertStatus(302); // Check for redirection
+    $response->assertRedirect('/permissions'); // Check redirection URL
+}
 
     public function testPermissionsIndexPage()
 {
