@@ -4,10 +4,14 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class RoleTest extends TestCase
+
 {
+
+
     public function testRolesIndexPage()
 {
 
@@ -19,6 +23,7 @@ class RoleTest extends TestCase
 }
 
 
+
 public function testListRoles()
 {
 
@@ -26,6 +31,8 @@ public function testListRoles()
     $response->assertStatus(200);
 
 }
+
+
 public function testViewRoleEditPage()
 {
 

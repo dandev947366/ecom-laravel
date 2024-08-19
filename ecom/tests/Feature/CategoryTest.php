@@ -2,12 +2,40 @@
 
 namespace Tests\Feature;
 use App\Models\Category;
-
+use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // Optionally disable CSRF protection for this test if needed.
+        $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+    }
+
+    public function test_create_a_category()
+{
+    $user = User::factory()->create();
+    $this->actingAs($user);
+    // Simulate form data
+    $formData = [
+        'name' => 'Electronics',
+        'status' => 'active',
+    ];
+
+    $response = $this->post(route('category.store'), $formData);
+
+    // Assert the category was created in the database
+    $this->assertDatabaseHas('categories', [
+        'name' => 'Electronics',
+        'status' => 1, // 'active' should be converted to 1 in your controller
+    ]);
+
+    // Assert redirection to the category index page
+    $response->assertRedirect(route('category.index'));
+}
 
 
 

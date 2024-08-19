@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Category;
-
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -15,6 +15,7 @@ class PermissionController extends Controller
         return view('role-permission.permission.index', compact('cats', 'permissions'));
     }
 
+
     public function create()
     {
         $cats = Category::all(); // Retrieve categories from the database
@@ -22,20 +23,17 @@ class PermissionController extends Controller
     }
 
     public function store(Request $request)
-    {
+{
+    $validated = $request->validate([
+        'name' => 'required|string|unique:permissions,name'
+    ]);
 
-        $request->validate([
-            'name'=>[
-                'required',
-                'string',
-                'unique:permissions,name'
-            ]
-            ]);
-            Permission::create([
-                'name'=>$request->name
-            ]);
-        return redirect('permissions')->with('status', 'Permission Created Successfully');
-    }
+    Permission::create([
+        'name' => $validated['name']
+    ]);
+
+    return redirect('permissions')->with('status', 'Permission Created Successfully');
+}
 
     public function edit(Permission $permission)
     {

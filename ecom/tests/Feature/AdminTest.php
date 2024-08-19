@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-
 class AdminTest extends TestCase
 {
     public function testAdminLoginPage()
@@ -20,7 +19,6 @@ public function testAdminRegisterPage()
     $response->assertStatus(200);
     $response->assertSee('Register'); // Modify with actual expected content
 }
-
 
 public function testAdminDashboardAccess()
 {
